@@ -1,18 +1,20 @@
 package com.mycompany.report;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.view.JasperViewer;
-//import net.sf.jasperreports.ant.JRException;
-//import org.springframework.util.ResourceUtils;
-
-import java.io.*;
-import java.net.URL;
-import java.nio.file.Path;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.nio.file.Paths;
-import java.util.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class Report {
     private static String destFileName = "CLASSROOM.pdf";
@@ -20,14 +22,11 @@ public class Report {
     public static void main(String[] args) throws FileNotFoundException, JRException {
         System.out.println("generating jasper report...");
 
-        // 1. compile template ".jrxml" file
         JasperReport jasperReport = getJasperReport();
 
-        // 2. parameters "empty"
         Map<String, Object> parameters = getParameters();
 
-        // 3. datasource "java object"
-        // JRDataSource dataSource = getDataSource();
+
         String connectionUrl = 
             "jdbc:sqlserver://localhost:58210;" +
             "database=University; user=hisyam; password=hisyam;" +
